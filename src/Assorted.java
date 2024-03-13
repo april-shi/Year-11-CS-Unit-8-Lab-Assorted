@@ -1,5 +1,10 @@
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+
+import static javax.swing.UIManager.get;
 
 public class Assorted {
 
@@ -14,7 +19,24 @@ public class Assorted {
      *         integer data types.
      */
     public static int findSum(List<?> list) {
-        return 0;
+
+        int sum = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            if (list.get(i) instanceof String) {
+
+                sum += Integer.parseInt((String)list.get(i));
+
+            } else {
+
+                sum += (int) list.get(i);
+
+            }
+
+        }
+
+        return sum;
     }
 
     /**
@@ -26,7 +48,20 @@ public class Assorted {
      * @return a list containing integers only.
      */
     public static List<Integer> filterStrings(List list) {
-        return null;
+
+        ArrayList<Integer> newList= new ArrayList();
+
+        for (int i=0;i<list.size();i++){
+
+            if (list.get(i) instanceof String){
+
+            } else {
+
+                newList.add((int)list.get(i));
+
+            }
+        }
+        return newList;
     }
 
     /**
@@ -39,7 +74,20 @@ public class Assorted {
      *         e.g. ["1: a", "2: b", "3: c"]
      */
     public static List<String> lineNumbering(List<String> list) {
-        return null;
+        ArrayList<String> myList = new ArrayList<>();
+
+        int index = 1;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            String result = index + ": " + list.get(i);
+            index++;
+            myList.add(result);
+
+        }
+
+        return myList;
+
     }
 
     /**
@@ -61,7 +109,28 @@ public class Assorted {
      * @return the number of people who are still on the bus after the last stop.
      */
     public static int busStop(List<Integer[]> list) {
-        return 0;
+
+        int left = 0;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            for (int k = 0; k < list.get(i).length; k++) {
+
+                if (k == 0) {
+
+                    left += list.get(i)[k];
+
+                } else {
+
+                    left -= list.get(i)[k];
+
+                }
+
+            }
+
+        }
+        return left;
+
     }
 
     /**
@@ -73,7 +142,19 @@ public class Assorted {
      *         Eg: [0, 0, 0, 1] is treated as 0001 which is the binary representation of 1.
      */
     public static int toBinary(List<Integer> list) {
-        return 0;
+
+        int result = 0;
+        int index = 1;
+
+        for (int i = list.size() - 1; i >= 0; i--) {
+
+            result += list.get(i) * index;
+            index *= 2;
+
+        }
+
+        return result;
+
     }
 
     /**
@@ -92,7 +173,24 @@ public class Assorted {
      *              subtractList([1,2,2,2,3], [2]) returns [1,3]
      */
     public static List<Integer> subtractList(List<Integer> listA, List<Integer> listB) {
-        return null;
+
+        for (int i = 0; i < listA.size(); i++) {
+
+            for (int k = 0; k < listB.size(); k++) {
+
+                if (listA.get(i) == listB.get(k)) {
+
+                    listA.remove(listA.get(i));
+                    i--;
+
+                }
+
+            }
+
+        }
+
+        return listA;
+
     }
 
     /**
@@ -106,7 +204,32 @@ public class Assorted {
      *         integers remain in their original position.
      */
     public static List<Integer> sortOdd(List<Integer> list) {
-        return null;
+
+        ArrayList<Integer> temp = new ArrayList<>();
+
+        for (int i = 0; i < list.size(); i++) {
+
+            if (list.get(i) % 2 == 1) {
+
+                temp.add(list.get(i));
+
+            }
+        }
+
+        Collections.sort(temp);
+
+        for (int i = 0; i < list.size(); i++) {
+
+            if (list.get(i) % 2 == 1) {
+
+                list.set(i,temp.get(0));
+                temp.remove(0);
+
+            }
+
+        }
+
+        return list;
     }
 
     /**
@@ -130,8 +253,47 @@ public class Assorted {
      *         e.g. uniqueNumber(1,10) returns [1,2,3,4,5,6,7,8,9]
      *              uniqueNumber(1,100) returns [1,2,3,4,5,6,7,8,9,89]
      */
+
     public static List<Integer> uniqueNumber(int lowerBound, int upperBound) {
-        return null;
+
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for (int num = lowerBound; num <= upperBound; num++) {
+            if (hasProperty(num)) {
+                list.add(num);
+            }
+        }
+
+        return list;
+
+    }
+
+    private static int getNumberOfDigits(int num) {
+        if (num == 0) {
+            return 1;
+        }
+
+        int count = 0;
+        while (num != 0) {
+            num /= 10;
+            count++;
+        }
+
+        return count;
+    }
+
+    private static boolean hasProperty(int num) {
+        int sum = 0;
+        int temp = num;
+
+        while (temp != 0) {
+            int digit = temp % 10;
+            double power = Math.pow(digit, getNumberOfDigits(temp));
+            sum += power;
+            temp /= 10;
+        }
+
+        return sum == num;
     }
 
     /**
@@ -154,7 +316,32 @@ public class Assorted {
      *              filterNTimes([20,37,20,21], 1) returns [20,37,21]
      */
     public static List<Integer> filterNTimes(List<Integer> list, int n) {
-        return null;
+
+        for (int i = 0; i < list.size(); i++) {
+
+            int count = 0;
+
+            for (int k = 0; k < i; k++) {
+
+                if (list.get(i) == list.get(k)) {
+
+                    count++;
+
+                }
+
+            }
+
+            if (count == n) {
+
+                list.remove(i);
+                i--;
+
+            }
+
+
+        }
+
+        return list;
     }
 
     /**
@@ -191,7 +378,53 @@ public class Assorted {
      *              ["WEST", "WEST"]
      */
     public static List<String> wildWest(List<String> directions) {
-        return null;
+
+        List<String> temp = wildWest1Step(directions);
+        temp = wildWest1Step(temp);
+        temp = wildWest1Step(temp);
+
+        return temp;
+
+    }
+
+    public static List<String> wildWest1Step(List<String> directions) {
+
+
+        int deleted = 0;
+
+        ArrayList<String> temp = new ArrayList<>();
+
+        for (int i = 0; i < directions.size();i++) {
+
+            temp.add(directions.get(i));
+
+        }
+
+        for (int i = 0; i < directions.size()-1;i++) {
+
+            if (isOpposite(directions.get(i),directions.get(i+1))) {
+
+                // System.out.println(i + " " + deleted + " " + temp.get(i-deleted));
+                temp.remove(i-deleted);
+                temp.remove(i-deleted);
+                deleted += 2;
+
+
+            } else {
+
+
+            }
+        }
+
+        return temp;
+
+    }
+
+    private static boolean isOpposite(String direction1, String direction2) {
+        return (direction1.equals("NORTH") && direction2.equals("SOUTH")) ||
+                (direction1.equals("SOUTH") && direction2.equals("NORTH")) ||
+                (direction1.equals("WEST") && direction2.equals("EAST")) ||
+                (direction1.equals("EAST") && direction2.equals("WEST"));
     }
 
     /**
@@ -215,6 +448,28 @@ public class Assorted {
      *              queueTime([2,3,10], 2) returns 12
      */
     public static int queueTime(List<Integer> queue, int tillsOpen) {
-        return 0;
+
+        int count = 0;
+
+        while (findSum(queue) > 0) {
+
+            int totalTills = tillsOpen; //to reset each loop, if the till decrements somehow
+
+            for (int k = 0; k < queue.size(); k++) {
+
+                if (queue.get(k) > 0 && totalTills > 0) {
+
+                    queue.set(k,queue.get(k)-1);
+                    totalTills--;
+
+                }
+            }
+
+            count++;
+
+        }
+
+        return count;
     }
+
 }
